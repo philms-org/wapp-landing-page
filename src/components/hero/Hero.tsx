@@ -42,6 +42,17 @@ export function Hero() {
   const zoneRefs = useRef<Record<ZoneId, HTMLDivElement | null>>(
     {} as Record<ZoneId, HTMLDivElement | null>
   );
+  const bobTweensRef = useRef<Record<string, gsap.core.Tween>>({});
+
+  function startBob(figureId: string, el: HTMLElement, i: number) {
+    bobTweensRef.current[figureId] = gsap.to(el, {
+      y: "+=6",
+      duration: 1.4 + (i % 3) * 0.2,
+      repeat: -1,
+      yoyo: true,
+      ease: "sine.inOut",
+    });
+  }
   const [assignments, setAssignments] = useState<Record<string, ZoneId | null>>(() =>
     Object.fromEntries(STICK_FIGURES.map((f) => [f.id, null]))
   );
@@ -50,7 +61,7 @@ export function Hero() {
   );
 
   useEffect(() => {
-    const draggables = STICK_FIGURES.map((figure) => {
+    const draggables = STICK_FIGURES.map((figure, i) => {
       const el = figureRefs.current[figure.id];
       if (!el || !boundsRef.current) return null;
 
@@ -83,9 +94,16 @@ export function Hero() {
                 y: target.y - originTop,
                 duration: 0.4,
                 ease: "power2.out",
+                onComplete: () => startBob(figure.id, el, i),
               });
             } else {
-              gsap.to(el, { x: 0, y: 0, duration: 0.4, ease: "power2.out" });
+              gsap.to(el, {
+                x: 0,
+                y: 0,
+                duration: 0.4,
+                ease: "power2.out",
+                onComplete: () => startBob(figure.id, el, i),
+              });
             }
 
             return cleared;
@@ -106,14 +124,12 @@ export function Hero() {
     STICK_FIGURES.forEach((figure, i) => {
       const el = figureRefs.current[figure.id];
       if (!el) return;
-      gsap.to(el, {
-        y: "+=6",
-        duration: 1.4 + (i % 3) * 0.2,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
-      });
+      startBob(figure.id, el, i);
     });
+
+    return () => {
+      Object.values(bobTweensRef.current).forEach((tween) => tween.kill());
+    };
   }, []);
 
   const previousAssignments = useRef<Record<string, ZoneId | null>>({});

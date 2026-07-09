@@ -12,6 +12,7 @@ function toRect(el: Element): Rect {
 }
 
 export function Hero() {
+  const boundsRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const figureRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const zoneRefs = useRef<Record<ZoneId, HTMLDivElement | null>>(
@@ -27,10 +28,10 @@ export function Hero() {
   useEffect(() => {
     const draggables = STICK_FIGURES.map((figure) => {
       const el = figureRefs.current[figure.id];
-      if (!el || !stageRef.current) return null;
+      if (!el || !boundsRef.current) return null;
 
       const [instance] = Draggable.create(el, {
-        bounds: stageRef.current,
+        bounds: boundsRef.current,
         onDragEnd() {
           const currentX = Number(gsap.getProperty(el, "x"));
           const currentY = Number(gsap.getProperty(el, "y"));
@@ -79,36 +80,38 @@ export function Hero() {
 
   return (
     <section className="relative px-6 py-12">
-      <div ref={stageRef} className="relative h-64 w-full">
-        {STICK_FIGURES.map((figure) => (
-          <div
-            key={figure.id}
-            data-figure-id={figure.id}
-            ref={(el) => {
-              figureRefs.current[figure.id] = el;
-            }}
-            className="absolute cursor-grab active:cursor-grabbing"
-            style={{ left: `${figure.startXPercent}%`, top: `${figure.startYPercent}%` }}
-          >
-            <StickFigure attire={figure.attire} />
-          </div>
-        ))}
-      </div>
-      <div className="mt-8 flex gap-4">
-        {ZONES.map((zone) => (
-          <div
-            key={zone.id}
-            ref={(el) => {
-              zoneRefs.current[zone.id] = el;
-            }}
-          >
-            <DropZone
-              zone={zone}
-              isActive={occupants[zone.id].length > 0}
-              valuePropVisible={occupants[zone.id].length > 0}
-            />
-          </div>
-        ))}
+      <div ref={boundsRef} className="relative">
+        <div ref={stageRef} className="relative h-64 w-full">
+          {STICK_FIGURES.map((figure) => (
+            <div
+              key={figure.id}
+              data-figure-id={figure.id}
+              ref={(el) => {
+                figureRefs.current[figure.id] = el;
+              }}
+              className="absolute cursor-grab active:cursor-grabbing"
+              style={{ left: `${figure.startXPercent}%`, top: `${figure.startYPercent}%` }}
+            >
+              <StickFigure attire={figure.attire} />
+            </div>
+          ))}
+        </div>
+        <div className="mt-8 flex gap-4">
+          {ZONES.map((zone) => (
+            <div
+              key={zone.id}
+              ref={(el) => {
+                zoneRefs.current[zone.id] = el;
+              }}
+            >
+              <DropZone
+                zone={zone}
+                isActive={occupants[zone.id].length > 0}
+                valuePropVisible={occupants[zone.id].length > 0}
+              />
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

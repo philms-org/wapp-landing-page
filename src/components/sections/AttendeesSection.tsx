@@ -1,4 +1,5 @@
 import { AttendeeForm } from "../forms/AttendeeForm";
+import { ErrorBoundary } from "../ErrorBoundary";
 
 export function AttendeesSection() {
   return (
@@ -9,7 +10,15 @@ export function AttendeesSection() {
         live feed, and unlock perks the more you engage — WAP turns any event
         into a room full of people worth knowing.
       </p>
-      <AttendeeForm />
+      <ErrorBoundary
+        fallback={
+          <p className="text-red-400">
+            Signup is temporarily unavailable. Please check back soon.
+          </p>
+        }
+      >
+        <AttendeeForm />
+      </ErrorBoundary>
     </section>
   );
 }

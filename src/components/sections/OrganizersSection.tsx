@@ -1,4 +1,5 @@
 import { OrganizerForm } from "../forms/OrganizerForm";
+import { ErrorBoundary } from "../ErrorBoundary";
 
 export function OrganizersSection() {
   return (
@@ -9,7 +10,15 @@ export function OrganizersSection() {
         event from one admin portal — with an audience that's already primed
         to connect.
       </p>
-      <OrganizerForm />
+      <ErrorBoundary
+        fallback={
+          <p className="text-red-400">
+            Signup is temporarily unavailable. Please check back soon.
+          </p>
+        }
+      >
+        <OrganizerForm />
+      </ErrorBoundary>
     </section>
   );
 }

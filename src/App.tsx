@@ -1,15 +1,12 @@
-import { Hero } from "./components/hero/Hero";
-import { SponsorsSection } from "./components/sponsors/SponsorsSection";
-import { AttendeesSection } from "./components/sections/AttendeesSection";
-import { OrganizersSection } from "./components/sections/OrganizersSection";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { LandingPage } from "./pages/LandingPage";
 
 export function App() {
   return (
-    <div className="min-h-screen bg-black text-white">
-      <Hero />
-      <SponsorsSection />
-      <AttendeesSection />
-      <OrganizersSection />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }

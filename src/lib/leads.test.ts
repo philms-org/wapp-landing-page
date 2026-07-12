@@ -3,9 +3,9 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 const insertMock = vi.fn();
 
 vi.mock("./supabase", () => ({
-  supabase: {
+  getSupabaseClient: () => ({
     from: () => ({ insert: insertMock }),
-  },
+  }),
 }));
 
 const { buildLeadPayload, submitLead } = await import("./leads");

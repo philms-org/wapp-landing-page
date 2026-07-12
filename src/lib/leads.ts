@@ -1,4 +1,4 @@
-import { supabase } from "./supabase";
+import { getSupabaseClient } from "./supabase";
 import type { OrganizerRole } from "./validation";
 
 export type Track = "attendee" | "organizer";
@@ -19,7 +19,7 @@ export function buildLeadPayload(
 }
 
 export async function submitLead(payload: LeadPayload): Promise<void> {
-  const { error } = await supabase.from("leads").insert(payload);
+  const { error } = await getSupabaseClient().from("leads").insert(payload);
   if (error) {
     throw new Error(error.message);
   }

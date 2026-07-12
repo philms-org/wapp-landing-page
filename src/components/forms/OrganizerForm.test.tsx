@@ -21,7 +21,7 @@ describe("OrganizerForm", () => {
     render(<OrganizerForm />);
     await userEvent.type(screen.getByLabelText(/email address/i), "owner@example.com");
     await userEvent.click(screen.getByRole("button", { name: /talk to us/i }));
-    expect(await screen.findByText(/select your role/i)).toBeInTheDocument();
+    expect(await screen.findByText(/select your role\.$/i)).toBeInTheDocument();
     expect(submitLeadMock).not.toHaveBeenCalled();
   });
 

@@ -20,7 +20,7 @@ export function RoleSelect({ value, onChange }: RoleSelectProps) {
       onChange={(e) => onChange(e.target.value as OrganizerRole | "")}
       className="rounded-md border border-white/20 bg-black px-3 py-2 text-white"
     >
-      <option value="">-- Choose your role</option>
+      <option value="">Select your role</option>
       {ORGANIZER_ROLES.map((role) => (
         <option key={role} value={role}>
           {ROLE_LABELS[role]}

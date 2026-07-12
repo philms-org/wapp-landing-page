@@ -38,9 +38,8 @@ export function OrganizerForm() {
 
   return (
     <form onSubmit={handleSubmit} noValidate className="flex max-w-sm flex-col gap-3">
-      <EmailField value={email} onChange={setEmail} error={null} />
+      <EmailField value={email} onChange={setEmail} error={error} />
       <RoleSelect value={role} onChange={setRole} />
-      {error && <p className="text-sm text-red-400">{error}</p>}
       <Button type="submit" disabled={status === "submitting"}>
         Talk to us about your event
       </Button>

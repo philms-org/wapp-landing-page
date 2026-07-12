@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { cleanup, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { AttendeeForm } from "./AttendeeForm";
 import * as leadsModule from "../../lib/leads";
@@ -14,26 +14,19 @@ beforeEach(() => {
 describe("AttendeeForm", () => {
   it("shows an error for an invalid email and does not submit", async () => {
     const user = userEvent.setup();
-    const { container } = render(<AttendeeForm />);
-    const input = screen.getByLabelText(/email address/i);
-    await user.type(input, "not-an-email");
-    const form = container.querySelector("form");
-    if (!form) throw new Error("Form not found");
-    fireEvent.submit(form);
-    await waitFor(() => {
-      expect(screen.getByText(/enter a valid email/i)).toBeInTheDocument();
-    });
+    render(<AttendeeForm />);
+    await user.type(screen.getByLabelText(/email address/i), "not-an-email");
+    await user.click(screen.getByRole("button", { name: /get early access/i }));
+    expect(await screen.findByText(/enter a valid email/i)).toBeInTheDocument();
     expect(submitLeadMock).not.toHaveBeenCalled();
   });
 
   it("submits a valid email and shows the thank-you state", async () => {
     const user = userEvent.setup();
     submitLeadMock.mockResolvedValue(undefined);
-    const { container } = render(<AttendeeForm />);
+    render(<AttendeeForm />);
     await user.type(screen.getByLabelText(/email address/i), "person@example.com");
-    const form = container.querySelector("form");
-    if (!form) throw new Error("Form not found");
-    fireEvent.submit(form);
+    await user.click(screen.getByRole("button", { name: /get early access/i }));
     expect(await screen.findByText(/thanks/i)).toBeInTheDocument();
     expect(submitLeadMock).toHaveBeenCalledWith({
       email: "person@example.com",

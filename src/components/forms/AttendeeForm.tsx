@@ -31,7 +31,7 @@ export function AttendeeForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex max-w-sm flex-col gap-3">
+    <form onSubmit={handleSubmit} noValidate className="flex max-w-sm flex-col gap-3">
       <EmailField value={email} onChange={setEmail} error={error} />
       <Button type="submit" disabled={status === "submitting"}>
         Get early access

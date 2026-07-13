@@ -9,9 +9,9 @@ export function SponsorsSection() {
     <section
       ref={containerRef}
       onMouseMove={handleMouseMove}
-      className="relative flex h-64 items-center justify-center overflow-hidden bg-black"
+      className="relative flex h-64 items-center justify-center overflow-hidden bg-stone-50"
     >
-      <h2 className="text-3xl font-bold text-white sm:text-4xl">
+      <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">
         Engage sponsors like never before.
       </h2>
     </section>

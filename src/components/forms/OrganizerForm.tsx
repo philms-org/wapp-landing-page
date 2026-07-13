@@ -33,7 +33,7 @@ export function OrganizerForm() {
   }
 
   if (status === "done") {
-    return <p className="text-cyan-400">Thanks — we'll be in touch.</p>;
+    return <p className="text-cyan-700">Thanks — we'll be in touch.</p>;
   }
 
   return (

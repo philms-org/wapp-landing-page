@@ -6,6 +6,13 @@ import { StickFigure } from "./StickFigure";
 import { DropZone } from "./DropZone";
 import { findDropZone, slotPosition, type Rect } from "./dropLogic";
 
+const CORNER_CLASSES: Record<ZoneId, string> = {
+  who: "absolute left-4 top-4",
+  "qr-connect": "absolute right-4 top-4",
+  "live-feed": "absolute bottom-4 left-4",
+  rewards: "absolute bottom-4 right-4",
+};
+
 function toRect(el: Element): Rect {
   const r = el.getBoundingClientRect();
   return { left: r.left, top: r.top, right: r.right, bottom: r.bottom, width: r.width, height: r.height };
@@ -148,8 +155,26 @@ export function Hero() {
 
   return (
     <section className="relative px-6 py-12">
-      <div ref={boundsRef} className="relative">
-        <div ref={stageRef} className="relative h-64 w-full">
+      <h2 className="mb-6 text-center text-xl font-semibold text-gray-900">
+        Drag a stick figure to an area
+      </h2>
+      <div ref={boundsRef} className="relative h-[520px] w-full">
+        {ZONES.map((zone) => (
+          <div
+            key={zone.id}
+            ref={(el) => {
+              zoneRefs.current[zone.id] = el;
+            }}
+            className={CORNER_CLASSES[zone.id]}
+          >
+            <DropZone
+              zone={zone}
+              isActive={occupants[zone.id].length > 0}
+              valuePropVisible={occupants[zone.id].length > 0}
+            />
+          </div>
+        ))}
+        <div ref={stageRef} className="absolute inset-0">
           {STICK_FIGURES.map((figure) => (
             <div
               key={figure.id}
@@ -161,22 +186,6 @@ export function Hero() {
               style={{ left: `${figure.startXPercent}%`, top: `${figure.startYPercent}%` }}
             >
               <StickFigure attire={figure.attire} />
-            </div>
-          ))}
-        </div>
-        <div className="mt-8 flex gap-4">
-          {ZONES.map((zone) => (
-            <div
-              key={zone.id}
-              ref={(el) => {
-                zoneRefs.current[zone.id] = el;
-              }}
-            >
-              <DropZone
-                zone={zone}
-                isActive={occupants[zone.id].length > 0}
-                valuePropVisible={occupants[zone.id].length > 0}
-              />
             </div>
           ))}
         </div>

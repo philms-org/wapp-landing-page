@@ -16,7 +16,7 @@ export function EmailField({ value, onChange, error }: EmailFieldProps) {
         value={value}
         onChange={(e) => onChange(e.target.value)}
       />
-      {error && <p className="text-sm text-red-400">{error}</p>}
+      {error && <p className="text-sm text-red-600">{error}</p>}
     </div>
   );
 }

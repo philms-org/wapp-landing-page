@@ -22,7 +22,7 @@ export function useLogoTrail(containerRef: RefObject<HTMLDivElement | null>) {
       const badge = document.createElement("div");
       badge.textContent = logo.label;
       badge.className =
-        "pointer-events-none absolute rounded-full border border-cyan-400/60 bg-black/80 px-3 py-1 text-xs font-semibold text-cyan-300";
+        "pointer-events-none absolute rounded-full border border-cyan-500/60 bg-white/90 px-3 py-1 text-xs font-semibold text-cyan-700 shadow-sm";
       badge.style.left = `${event.clientX - rect.left}px`;
       badge.style.top = `${event.clientY - rect.top}px`;
       container.appendChild(badge);

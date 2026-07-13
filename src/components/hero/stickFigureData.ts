@@ -15,11 +15,11 @@ const COLUMNS = 7;
 function scatterPosition(index: number): { startXPercent: number; startYPercent: number } {
   const row = Math.floor(index / COLUMNS);
   const col = index % COLUMNS;
-  const jitterX = ((index * 37) % 10) - 5;
-  const jitterY = ((index * 53) % 10) - 5;
+  const jitterX = ((index * 37) % 8) - 4;
+  const jitterY = ((index * 53) % 8) - 4;
   return {
-    startXPercent: 6 + col * 13 + jitterX,
-    startYPercent: 8 + row * 24 + jitterY,
+    startXPercent: 32 + col * 6 + jitterX,
+    startYPercent: 40 + row * 14 + jitterY,
   };
 }
 

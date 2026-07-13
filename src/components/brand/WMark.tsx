@@ -12,8 +12,8 @@ export function WMark({ className }: WMarkProps) {
         strokeLinecap="square"
         strokeLinejoin="miter"
       />
-      <circle cx="30" cy="75" r="5" fill="black" />
-      <circle cx="70" cy="75" r="5" fill="black" />
+      <circle cx="30" cy="75" r="5" fill="white" />
+      <circle cx="70" cy="75" r="5" fill="white" />
     </svg>
   );
 }

@@ -7,7 +7,7 @@ import { OrganizersSection } from "../components/sections/OrganizersSection";
 
 export function LandingPage() {
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-white text-gray-900">
       <Nav />
       <Hero />
       <SponsorsSection />

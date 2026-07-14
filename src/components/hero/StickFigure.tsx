@@ -1,10 +1,11 @@
+import { memo } from "react";
 import type { Attire } from "./stickFigureData";
 
 interface StickFigureProps {
   attire: Attire;
 }
 
-export function StickFigure({ attire }: StickFigureProps) {
+export const StickFigure = memo(function StickFigure({ attire }: StickFigureProps) {
   return (
     <svg viewBox="0 0 40 80" width={40} height={80} className="overflow-visible">
       <circle cx="20" cy="10" r="8" fill="none" stroke="#1f2937" strokeWidth="2" />
@@ -22,4 +23,4 @@ export function StickFigure({ attire }: StickFigureProps) {
       )}
     </svg>
   );
-}
+});

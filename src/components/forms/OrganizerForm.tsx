@@ -2,34 +2,18 @@ import { useState, type FormEvent } from "react";
 import { Button } from "../ui/button";
 import { EmailField } from "./EmailField";
 import { RoleSelect } from "./RoleSelect";
-import { isValidEmail, isValidOrganizerRole, type OrganizerRole } from "../../lib/validation";
-import { buildLeadPayload, submitLead } from "../../lib/leads";
+import { isValidOrganizerRole, type OrganizerRole } from "../../lib/validation";
+import { useLeadForm } from "../../lib/useLeadForm";
 
 export function OrganizerForm() {
-  const [email, setEmail] = useState("");
   const [role, setRole] = useState<OrganizerRole | "">("");
-  const [error, setError] = useState<string | null>(null);
-  const [status, setStatus] = useState<"idle" | "submitting" | "done">("idle");
+  const { email, setEmail, error, status, submit } = useLeadForm("organizer");
 
-  async function handleSubmit(event: FormEvent) {
+  function handleSubmit(event: FormEvent) {
     event.preventDefault();
-    if (!isValidEmail(email)) {
-      setError("Enter a valid email address.");
-      return;
-    }
-    if (!isValidOrganizerRole(role)) {
-      setError("Select your role.");
-      return;
-    }
-    setError(null);
-    setStatus("submitting");
-    try {
-      await submitLead(buildLeadPayload(email, "organizer", role));
-      setStatus("done");
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong.");
-      setStatus("idle");
-    }
+    void submit(isValidOrganizerRole(role) ? role : null, () =>
+      isValidOrganizerRole(role) ? null : "Select your role."
+    );
   }
 
   if (status === "done") {

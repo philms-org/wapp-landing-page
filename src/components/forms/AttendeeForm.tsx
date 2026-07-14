@@ -1,29 +1,14 @@
-import { useState, type FormEvent } from "react";
+import type { FormEvent } from "react";
 import { Button } from "../ui/button";
 import { EmailField } from "./EmailField";
-import { isValidEmail } from "../../lib/validation";
-import { buildLeadPayload, submitLead } from "../../lib/leads";
+import { useLeadForm } from "../../lib/useLeadForm";
 
 export function AttendeeForm() {
-  const [email, setEmail] = useState("");
-  const [error, setError] = useState<string | null>(null);
-  const [status, setStatus] = useState<"idle" | "submitting" | "done">("idle");
+  const { email, setEmail, error, status, submit } = useLeadForm("attendee");
 
-  async function handleSubmit(event: FormEvent) {
+  function handleSubmit(event: FormEvent) {
     event.preventDefault();
-    if (!isValidEmail(email)) {
-      setError("Enter a valid email address.");
-      return;
-    }
-    setError(null);
-    setStatus("submitting");
-    try {
-      await submitLead(buildLeadPayload(email, "attendee", null));
-      setStatus("done");
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong.");
-      setStatus("idle");
-    }
+    void submit(null);
   }
 
   if (status === "done") {

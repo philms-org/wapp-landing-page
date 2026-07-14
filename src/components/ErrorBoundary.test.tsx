@@ -37,4 +37,24 @@ describe("ErrorBoundary", () => {
     expect(screen.getByText("All good")).toBeInTheDocument();
     expect(screen.queryByText("Fallback")).not.toBeInTheDocument();
   });
+
+  it("recovers when the function-fallback's reset is called", async () => {
+    const { rerender } = render(
+      <ErrorBoundary fallback={(reset) => <button onClick={reset}>Retry</button>}>
+        <Bomb />
+      </ErrorBoundary>
+    );
+    const retryButton = screen.getByRole("button", { name: /retry/i });
+
+    // Swap in a non-throwing child before triggering reset, mirroring how a
+    // real caller would fix the underlying error before letting the user retry.
+    rerender(
+      <ErrorBoundary fallback={(reset) => <button onClick={reset}>Retry</button>}>
+        <p>Recovered</p>
+      </ErrorBoundary>
+    );
+    retryButton.click();
+
+    expect(await screen.findByText("Recovered")).toBeInTheDocument();
+  });
 });

@@ -50,8 +50,33 @@ export function Hero() {
     {} as Record<ZoneId, HTMLDivElement | null>
   );
   const bobTweensRef = useRef<Record<string, gsap.core.Tween>>({});
+  const figureRefSettersRef = useRef<Record<string, (el: HTMLDivElement | null) => void>>({});
+  const zoneRefSettersRef = useRef<Record<string, (el: HTMLDivElement | null) => void>>({});
+
+  function getFigureRefSetter(figureId: string) {
+    let setter = figureRefSettersRef.current[figureId];
+    if (!setter) {
+      setter = (el) => {
+        figureRefs.current[figureId] = el;
+      };
+      figureRefSettersRef.current[figureId] = setter;
+    }
+    return setter;
+  }
+
+  function getZoneRefSetter(zoneId: ZoneId) {
+    let setter = zoneRefSettersRef.current[zoneId];
+    if (!setter) {
+      setter = (el) => {
+        zoneRefs.current[zoneId] = el;
+      };
+      zoneRefSettersRef.current[zoneId] = setter;
+    }
+    return setter;
+  }
 
   function startBob(figureId: string, el: HTMLElement, i: number) {
+    bobTweensRef.current[figureId]?.kill();
     bobTweensRef.current[figureId] = gsap.to(el, {
       y: "+=6",
       duration: 1.4 + (i % 3) * 0.2,
@@ -74,6 +99,9 @@ export function Hero() {
 
       const [instance] = Draggable.create(el, {
         bounds: boundsRef.current,
+        onDragStart() {
+          bobTweensRef.current[figure.id]?.kill();
+        },
         onDragEnd() {
           const currentX = Number(gsap.getProperty(el, "x"));
           const currentY = Number(gsap.getProperty(el, "y"));
@@ -162,9 +190,7 @@ export function Hero() {
         {ZONES.map((zone) => (
           <div
             key={zone.id}
-            ref={(el) => {
-              zoneRefs.current[zone.id] = el;
-            }}
+            ref={getZoneRefSetter(zone.id)}
             className={CORNER_CLASSES[zone.id]}
           >
             <DropZone
@@ -179,9 +205,7 @@ export function Hero() {
             <div
               key={figure.id}
               data-figure-id={figure.id}
-              ref={(el) => {
-                figureRefs.current[figure.id] = el;
-              }}
+              ref={getFigureRefSetter(figure.id)}
               className="absolute cursor-grab active:cursor-grabbing"
               style={{ left: `${figure.startXPercent}%`, top: `${figure.startYPercent}%` }}
             >

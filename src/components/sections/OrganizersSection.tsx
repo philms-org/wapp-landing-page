@@ -1,24 +1,16 @@
 import { OrganizerForm } from "../forms/OrganizerForm";
-import { ErrorBoundary } from "../ErrorBoundary";
+import { LeadCaptureSection } from "./LeadCaptureSection";
 
 export function OrganizersSection() {
   return (
-    <section id="organizers" className="mx-auto max-w-3xl px-6 py-16">
-      <h2 className="mb-4 text-3xl font-bold text-gray-900">For Organizers</h2>
-      <p className="mb-8 text-gray-700">
-        Run check-ins, track engagement, and manage rewards for your venue or
+    <LeadCaptureSection
+      id="organizers"
+      title="For Organizers"
+      description="Run check-ins, track engagement, and manage rewards for your venue or
         event from one admin portal — with an audience that's already primed
-        to connect.
-      </p>
-      <ErrorBoundary
-        fallback={
-          <p className="text-red-400">
-            Signup is temporarily unavailable. Please check back soon.
-          </p>
-        }
-      >
-        <OrganizerForm />
-      </ErrorBoundary>
-    </section>
+        to connect."
+    >
+      <OrganizerForm />
+    </LeadCaptureSection>
   );
 }

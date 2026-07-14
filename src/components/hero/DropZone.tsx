@@ -1,3 +1,4 @@
+import { memo } from "react";
 import type { ZoneDef } from "./zoneData";
 
 interface DropZoneProps {
@@ -6,7 +7,7 @@ interface DropZoneProps {
   valuePropVisible: boolean;
 }
 
-export function DropZone({ zone, isActive, valuePropVisible }: DropZoneProps) {
+export const DropZone = memo(function DropZone({ zone, isActive, valuePropVisible }: DropZoneProps) {
   return (
     <div
       data-zone-id={zone.id}
@@ -24,4 +25,4 @@ export function DropZone({ zone, isActive, valuePropVisible }: DropZoneProps) {
       )}
     </div>
   );
-}
+});

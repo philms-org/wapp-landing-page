@@ -21,40 +21,26 @@ Nothing is blocking you from moving on to Phase 1.
 
 ---
 
-## Phase 1 — Create your Supabase project (~15 min)
+## Phase 1 — Create your Supabase project (done)
 
-Supabase is the database that stores each signup. You told me you haven't set this up yet, so:
+- [x] 🧑 Supabase project created (`bsgbdrtragiltunpvaoi.supabase.co`), `leads` table migrated, RLS policy in place (public can insert, not read).
+- [x] 🧑 Project URL and anon key retrieved and added to Vercel (see Phase 3).
 
-- [ ] 🧑 Go to [supabase.com/dashboard](https://supabase.com/dashboard), sign up or log in, and click "New project." Pick a name (e.g. "wap-landing") and a strong database password — **save that password somewhere safe, you'll need it if you ever connect directly to the database.** The free tier is enough for a waitlist page.
-  **You'll know it worked when:** you land on your new project's dashboard.
-
-- [ ] 🧑 In the left sidebar, open **SQL Editor** → **New query**. Paste in the contents of this repo's `supabase/migrations/0001_create_leads_table.sql` file and click **Run**.
-  **You'll know it worked when:** you see "Success. No rows returned" and a new `leads` table appears under **Table Editor**.
-
-- [ ] 🧑 Go to **Project Settings → API**. Copy the **Project URL** and the **anon public** key (not the `service_role` key — that one must never be used in a browser-facing app). Keep this tab open; you'll paste these into Vercel in Phase 3, not into this chat.
-  **You'll know it worked when:** you have both values copied somewhere private (a password manager, not a text file you'll forget about).
+An earlier debugging session hit what looked like an RLS failure on insert; it turned out to be a false alarm in a diagnostic script (asking Postgres to return the inserted row via `Prefer: return=representation`, which the intentionally-read-blocked `anon` role can't satisfy). The actual insert path the site uses has always worked. Confirmed via a live UI test on 2026-07-23 and again via an automated E2E test (`scripts/camoufox/test_signup.py`) on 2026-07-26.
 
 ---
 
-## Phase 2 — Create your Vercel account (~5 min)
+## Phase 2 — Create your Vercel account (done)
 
-- [ ] 🧑 Go to [vercel.com/signup](https://vercel.com/signup) and sign up, ideally with the same GitHub account that owns the `philms-org/wapp-landing-page` repo — this lets Vercel deploy automatically on every push. The free **Hobby** plan is right for personal/testing use, which is what you told me this is.
-  **You'll know it worked when:** you're on the Vercel dashboard.
+- [x] 🧑 Vercel account created, connected to the `philms-org/wapp-landing-page` GitHub repo.
 
 ---
 
-## Phase 3 — Deploy the app (~15 min)
+## Phase 3 — Deploy the app (done)
 
-- [ ] 🤝 In the Vercel dashboard, click **Add New → Project**, and import `philms-org/wapp-landing-page` from GitHub. Vercel will auto-detect it as a Vite app — leave the build command (`npm run build`) and output directory (`dist`) as the defaults, it doesn't need a config file for this.
-
-- [ ] 🧑 Before clicking Deploy, open **Environment Variables** in that same import screen and add two entries, pasting in the values you copied from Supabase in Phase 1:
-  - `VITE_SUPABASE_URL` → your Project URL
-  - `VITE_SUPABASE_ANON_KEY` → your anon public key
-
-  **Never paste these into this chat — they go directly into Vercel's form.**
-
-- [ ] 🧑 Click **Deploy**. Vercel will build and give you a live URL like `wapp-landing-page.vercel.app`.
-  **You'll know it worked when:** that URL loads the page with the hero, sponsors trail, and both signup forms visible.
+- [x] 🤝 Project imported into Vercel (`wapp-landing-page`, team `philms-orgs-projects`).
+- [x] 🧑 `VITE_SUPABASE_URL` / `VITE_SUPABASE_ANON_KEY` environment variables set.
+- [x] 🧑 Deployed and live at `https://wapp-landing-page.vercel.app` — confirmed loading (HTTP 200) as of 2026-07-26.
 
 ---
 
@@ -72,6 +58,8 @@ You told me you already own a domain.
 ## Phase 5 — Smoke test as a real customer (~10 min)
 
 Do this on your **live domain**, not localhost — a working build on your machine doesn't guarantee the live environment (real env vars, real network) works too.
+
+The form logic itself (validation, submit, success state) is now covered by an automated test (`scripts/camoufox/test_signup.py`, see `docs/camoufox.md`) that mocks the network call — it doesn't touch the real Supabase project, so it can't replace this manual pass against production, but it does mean a code regression in the form flow would be caught before you ever get here.
 
 - [ ] 🧑 Fill in the **attendee** form with a real email address you can check, and submit. Confirm you see the "Thanks — we'll be in touch" message.
 - [ ] 🧑 In Supabase → **Table Editor → leads**, confirm a new row appeared with `track: attendee` and your email.

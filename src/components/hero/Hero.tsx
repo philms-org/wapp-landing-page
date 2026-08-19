@@ -13,32 +13,33 @@ const CORNER_CLASSES: Record<ZoneId, string> = {
   rewards: "absolute bottom-4 right-4",
 };
 
+// Right-arm rotation per zone on drop. `hold` zones keep the pose;
+// live-feed springs back through the gesture a few times before settling.
+const GESTURE: Record<ZoneId, { deg: number; hold: boolean }> = {
+  who: { deg: -68, hold: true },
+  "qr-connect": { deg: -14, hold: true },
+  "live-feed": { deg: -40, hold: false },
+  rewards: { deg: -95, hold: true },
+};
+
 function toRect(el: Element): Rect {
   const r = el.getBoundingClientRect();
   return { left: r.left, top: r.top, right: r.right, bottom: r.bottom, width: r.width, height: r.height };
 }
 
 function playGesture(el: HTMLElement, zoneId: ZoneId) {
-  const rightArm = el.querySelector<SVGLineElement>('[data-part="right-arm"]');
-  if (!rightArm) return;
+  const rightArm = el.querySelector<SVGPolygonElement>('[data-part="right-arm"]');
+  const g = GESTURE[zoneId];
+  if (!rightArm || !g) return;
 
-  switch (zoneId) {
-    case "who":
-      gsap.to(rightArm, { attr: { y2: 15 }, duration: 0.3, ease: "back.out(2)" });
-      break;
-    case "qr-connect":
-      gsap.to(rightArm, { attr: { x2: 20, y2: 20 }, duration: 0.3, ease: "power2.out" });
-      break;
-    case "live-feed":
-      gsap.fromTo(
-        rightArm,
-        { attr: { x2: 32, y2: 40 } },
-        { attr: { x2: 30, y2: 30 }, duration: 0.25, yoyo: true, repeat: 1, ease: "power1.inOut" }
-      );
-      break;
-    case "rewards":
-      gsap.to(rightArm, { attr: { x2: 15, y2: 12 }, duration: 0.3, ease: "back.out(2)" });
-      break;
+  if (g.hold) {
+    gsap.to(rightArm, { rotation: g.deg, duration: 0.3, ease: "back.out(2)" });
+  } else {
+    gsap.fromTo(
+      rightArm,
+      { rotation: 0 },
+      { rotation: g.deg, duration: 0.26, yoyo: true, repeat: 3, ease: "power1.inOut" }
+    );
   }
 }
 
@@ -80,6 +81,7 @@ export function Hero() {
     bobTweensRef.current[figureId] = gsap.to(el, {
       y: "+=6",
       duration: 1.4 + (i % 3) * 0.2,
+      delay: (i % 5) * 0.18,
       repeat: -1,
       yoyo: true,
       ease: "sine.inOut",
@@ -101,6 +103,10 @@ export function Hero() {
         bounds: boundsRef.current,
         onDragStart() {
           bobTweensRef.current[figure.id]?.kill();
+          const leftArm = el.querySelector('[data-part="left-arm"]');
+          const rightArm = el.querySelector('[data-part="right-arm"]');
+          if (leftArm) gsap.to(leftArm, { rotation: 120, duration: 0.15 });
+          if (rightArm) gsap.to(rightArm, { rotation: -120, duration: 0.15 });
         },
         onDragEnd() {
           const currentX = Number(gsap.getProperty(el, "x"));
@@ -114,6 +120,11 @@ export function Hero() {
           ) as Record<ZoneId, Rect>;
 
           const hitZone = findDropZone(figureRect, zoneRects);
+
+          const leftArm = el.querySelector('[data-part="left-arm"]');
+          const rightArm = el.querySelector('[data-part="right-arm"]');
+          if (leftArm) gsap.to(leftArm, { rotation: 0, duration: 0.2 });
+          if (!hitZone && rightArm) gsap.to(rightArm, { rotation: 0, duration: 0.2 });
 
           setOccupants((prevOccupants) => {
             const cleared: Record<ZoneId, string[]> = Object.fromEntries(
@@ -182,34 +193,62 @@ export function Hero() {
   }, [assignments]);
 
   return (
-    <section className="relative px-6 py-12">
-      <h2 className="mb-6 text-center text-xl font-semibold text-gray-900">
-        Drag a stick figure to an area
-      </h2>
-      <div ref={boundsRef} className="relative h-[520px] w-full">
-        {ZONES.map((zone) => (
-          <div
-            key={zone.id}
-            ref={getZoneRefSetter(zone.id)}
-            className={CORNER_CLASSES[zone.id]}
+    <section id="top" className="border-b-2 border-[#201e1d]/40">
+      <div className="max-w-[1320px] px-6 pt-16 pb-8 sm:px-10 sm:pt-24 md:px-14 md:pt-28">
+        <p className="m-0 mb-6 text-[13px] tracking-[0.16em] text-[#ae1800] uppercase sm:mb-9">
+          Conferences · Expos · High-traffic venues
+        </p>
+        <h1 className="m-0 max-w-[15ch] font-[Archivo] text-[42px] leading-[0.94] font-extrabold tracking-[-0.035em] text-[#201e1d] sm:text-[64px] md:text-[80px] lg:text-[108px]">
+          Every room is a network.
+        </h1>
+        <h1 className="m-0 max-w-[15ch] font-[Archivo] text-[42px] leading-[0.94] font-extrabold tracking-[-0.035em] text-[#ec3013] sm:text-[64px] md:text-[80px] lg:text-[108px]">
+          W makes it legible.
+        </h1>
+        <p className="m-0 mt-6 max-w-[62ch] text-[17px] leading-[1.5] text-[#444141] sm:mt-9 sm:text-[21px]">
+          Attendees see who is already in the room and trade contacts in one tap. Event and venue
+          owners see the traffic, the reconnections and the sponsor value behind the door count —
+          from the same floor, in real time.
+        </p>
+        <div className="mt-7 flex flex-wrap gap-3 sm:mt-10">
+          <a
+            href="#waitlist"
+            className="border-2 border-[#ec3013] bg-[#ec3013] px-[22px] py-3.5 text-[15px] font-extrabold tracking-wide text-white uppercase hover:bg-[#ae1800] hover:border-[#ae1800]"
           >
-            <DropZone
-              zone={zone}
-              isActive={occupants[zone.id].length > 0}
-              valuePropVisible={occupants[zone.id].length > 0}
-            />
+            Join the waitlist
+          </a>
+          <a
+            href="#owners"
+            className="border-2 border-[#201e1d] px-[22px] py-3.5 text-[15px] font-extrabold tracking-wide text-[#201e1d] uppercase hover:bg-[#201e1d] hover:text-white"
+          >
+            Onboard your event
+          </a>
+        </div>
+        <p className="m-0 mt-4 text-[13px] text-[#7d7979]">
+          Free through beta · iOS, Android and web · No hardware to install
+        </p>
+      </div>
+      <div
+        ref={boundsRef}
+        className="relative h-[520px] w-full border-t-2 border-[#201e1d]/40 bg-[#f3f2f2] select-none"
+      >
+        {ZONES.map((zone) => (
+          <div key={zone.id} ref={getZoneRefSetter(zone.id)} className={CORNER_CLASSES[zone.id]}>
+            <DropZone zone={zone} isActive={occupants[zone.id].length > 0} />
           </div>
         ))}
+        <p className="pointer-events-none absolute top-7 left-1/2 z-10 m-0 -translate-x-1/2 text-center text-xs tracking-[0.16em] text-[#7d7979] uppercase">
+          Drag someone into a corner area
+        </p>
         <div ref={stageRef} className="absolute inset-0">
           {STICK_FIGURES.map((figure) => (
             <div
               key={figure.id}
               data-figure-id={figure.id}
               ref={getFigureRefSetter(figure.id)}
-              className="absolute cursor-grab active:cursor-grabbing"
+              className="absolute cursor-grab touch-none active:cursor-grabbing"
               style={{ left: `${figure.startXPercent}%`, top: `${figure.startYPercent}%` }}
             >
-              <StickFigure attire={figure.attire} />
+              <StickFigure attire={figure.attire} flip={figure.flip} />
             </div>
           ))}
         </div>

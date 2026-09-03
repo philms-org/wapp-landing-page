@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap, Draggable } from "../../lib/gsap";
-import { STICK_FIGURES } from "./stickFigureData";
+import { STICK_FIGURES, type Attire } from "./stickFigureData";
 import { ZONES, type ZoneId } from "./zoneData";
 import { StickFigure } from "./StickFigure";
 import { DropZone } from "./DropZone";
@@ -27,18 +27,30 @@ function toRect(el: Element): Rect {
   return { left: r.left, top: r.top, right: r.right, bottom: r.bottom, width: r.width, height: r.height };
 }
 
-function playGesture(el: HTMLElement, zoneId: ZoneId) {
+// Each arm's actual shoulder vertex, in the figure SVG's own viewBox units
+// (viewBox="0 0 40 80"). GSAP's `rotation` doesn't reliably read the CSS
+// `transform-box: view-box` origin set in StickFigure — it resolves SVG
+// transform-origin through its own `svgOrigin` config, so every tween that
+// rotates an arm must pass it explicitly or the pivot silently reverts to
+// GSAP's bounding-box default and the arm looks like it tears off.
+const ARM_ORIGINS: Record<Attire, { left: string; right: string }> = {
+  tie: { left: "13 20", right: "27 19" },
+  dress: { left: "14 20", right: "26 19" },
+};
+
+function playGesture(el: HTMLElement, zoneId: ZoneId, attire: Attire) {
   const rightArm = el.querySelector<SVGPolygonElement>('[data-part="right-arm"]');
   const g = GESTURE[zoneId];
   if (!rightArm || !g) return;
+  const svgOrigin = ARM_ORIGINS[attire].right;
 
   if (g.hold) {
-    gsap.to(rightArm, { rotation: g.deg, duration: 0.3, ease: "back.out(2)" });
+    gsap.to(rightArm, { rotation: g.deg, svgOrigin, duration: 0.3, ease: "back.out(2)" });
   } else {
     gsap.fromTo(
       rightArm,
-      { rotation: 0 },
-      { rotation: g.deg, duration: 0.26, yoyo: true, repeat: 3, ease: "power1.inOut" }
+      { rotation: 0, svgOrigin },
+      { rotation: g.deg, svgOrigin, duration: 0.26, yoyo: true, repeat: 3, ease: "power1.inOut" }
     );
   }
 }
@@ -103,10 +115,11 @@ export function Hero() {
         bounds: boundsRef.current,
         onDragStart() {
           bobTweensRef.current[figure.id]?.kill();
+          const origins = ARM_ORIGINS[figure.attire];
           const leftArm = el.querySelector('[data-part="left-arm"]');
           const rightArm = el.querySelector('[data-part="right-arm"]');
-          if (leftArm) gsap.to(leftArm, { rotation: 120, duration: 0.15 });
-          if (rightArm) gsap.to(rightArm, { rotation: -120, duration: 0.15 });
+          if (leftArm) gsap.to(leftArm, { rotation: 120, svgOrigin: origins.left, duration: 0.15 });
+          if (rightArm) gsap.to(rightArm, { rotation: -120, svgOrigin: origins.right, duration: 0.15 });
         },
         onDragEnd() {
           const figureRect = toRect(el);
@@ -117,10 +130,12 @@ export function Hero() {
 
           const hitZone = findDropZone(figureRect, zoneRects);
 
+          const origins = ARM_ORIGINS[figure.attire];
           const leftArm = el.querySelector('[data-part="left-arm"]');
           const rightArm = el.querySelector('[data-part="right-arm"]');
-          if (leftArm) gsap.to(leftArm, { rotation: 0, duration: 0.2 });
-          if (!hitZone && rightArm) gsap.to(rightArm, { rotation: 0, duration: 0.2 });
+          if (leftArm) gsap.to(leftArm, { rotation: 0, svgOrigin: origins.left, duration: 0.2 });
+          if (!hitZone && rightArm)
+            gsap.to(rightArm, { rotation: 0, svgOrigin: origins.right, duration: 0.2 });
 
           setOccupants((prevOccupants) => {
             const cleared: Record<ZoneId, string[]> = Object.fromEntries(
@@ -176,7 +191,7 @@ export function Hero() {
       const prevZoneId = previousAssignments.current[figure.id];
       if (zoneId && zoneId !== prevZoneId) {
         const el = figureRefs.current[figure.id];
-        if (el) playGesture(el, zoneId);
+        if (el) playGesture(el, zoneId, figure.attire);
       }
     });
     previousAssignments.current = assignments;

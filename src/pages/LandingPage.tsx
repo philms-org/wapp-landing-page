@@ -13,8 +13,8 @@ export function LandingPage() {
     <div className="min-h-screen bg-[#f3f2f2] text-[#201e1d]">
       <Nav />
       <Hero />
-      <TwoAudiencesSection />
       <SponsorsSection />
+      <TwoAudiencesSection />
       <OwnerSignalsSection />
       <OnboardingSection />
       <PosterSection />

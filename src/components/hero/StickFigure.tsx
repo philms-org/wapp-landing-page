@@ -9,8 +9,13 @@ interface StickFigureProps {
 const INK = "#2d2b2b";
 const DRESS_ACCENT = "#4B9CD3";
 
-const ARM_STYLE_LEFT = { transformBox: "fill-box" as const, transformOrigin: "100% 0%" };
-const ARM_STYLE_RIGHT = { transformBox: "fill-box" as const, transformOrigin: "0% 0%" };
+// Anchored in view-box units at each arm's actual shoulder vertex (not the
+// bounding-box corner, which for the right arm doesn't land on the shoulder
+// and made the arm look like it was tearing off when rotated).
+const TIE_ARM_LEFT_STYLE = { transformBox: "view-box" as const, transformOrigin: "13px 20px" };
+const TIE_ARM_RIGHT_STYLE = { transformBox: "view-box" as const, transformOrigin: "27px 19px" };
+const DRESS_ARM_LEFT_STYLE = { transformBox: "view-box" as const, transformOrigin: "14px 20px" };
+const DRESS_ARM_RIGHT_STYLE = { transformBox: "view-box" as const, transformOrigin: "26px 19px" };
 
 export const StickFigure = memo(function StickFigure({ attire, flip }: StickFigureProps) {
   return (
@@ -30,13 +35,13 @@ export const StickFigure = memo(function StickFigure({ attire, flip }: StickFigu
             data-part="left-arm"
             points="13,20 10,20 7,40 10,41"
             fill={INK}
-            style={ARM_STYLE_LEFT}
+            style={TIE_ARM_LEFT_STYLE}
           />
           <polygon
             data-part="right-arm"
             points="27,19 29,23 36,15 33.5,11.5"
             fill={INK}
-            style={ARM_STYLE_RIGHT}
+            style={TIE_ARM_RIGHT_STYLE}
           />
           <polygon points="14,45 19,45 19,74 14,74" fill={INK} />
           <polygon points="21,45 26,45 26,74 21,74" fill={INK} />
@@ -49,13 +54,13 @@ export const StickFigure = memo(function StickFigure({ attire, flip }: StickFigu
             data-part="left-arm"
             points="14,20 11,20 6,40 9,41"
             fill={INK}
-            style={ARM_STYLE_LEFT}
+            style={DRESS_ARM_LEFT_STYLE}
           />
           <polygon
             data-part="right-arm"
             points="26,19 28.5,23 35,16 32.5,12.5"
             fill={INK}
-            style={ARM_STYLE_RIGHT}
+            style={DRESS_ARM_RIGHT_STYLE}
           />
           <polygon points="16,52 19,52 19,74 16,74" fill={INK} />
           <polygon points="21,52 24,52 24,74 21,74" fill={INK} />

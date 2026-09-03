@@ -13,7 +13,7 @@ export const ZONES: ZoneDef[] = [
     id: "qr-connect",
     title: "Where",
     reveal: "QR Connect",
-    caption: "As attendees move around they get alerts — this data helps improve the experience",
+    caption: "As attendees move around they get alerts that help improve the experience",
   },
   {
     id: "live-feed",

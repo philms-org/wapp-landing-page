@@ -4,7 +4,7 @@ import { STICK_FIGURES } from "./stickFigureData";
 import { ZONES, type ZoneId } from "./zoneData";
 import { StickFigure } from "./StickFigure";
 import { DropZone } from "./DropZone";
-import { findDropZone, slotPosition, type Rect } from "./dropLogic";
+import { findDropZone, type Rect } from "./dropLogic";
 
 const CORNER_CLASSES: Record<ZoneId, string> = {
   who: "absolute left-4 top-4",
@@ -109,11 +109,7 @@ export function Hero() {
           if (rightArm) gsap.to(rightArm, { rotation: -120, duration: 0.15 });
         },
         onDragEnd() {
-          const currentX = Number(gsap.getProperty(el, "x"));
-          const currentY = Number(gsap.getProperty(el, "y"));
           const figureRect = toRect(el);
-          const originLeft = figureRect.left - currentX;
-          const originTop = figureRect.top - currentY;
 
           const zoneRects = Object.fromEntries(
             ZONES.map((z) => [z.id, toRect(zoneRefs.current[z.id]!)])
@@ -132,16 +128,10 @@ export function Hero() {
             ) as Record<ZoneId, string[]>;
 
             if (hitZone) {
+              // Leave the figure exactly where it was dropped — no snapping
+              // to a computed slot, so it can't land on top of the caption.
               cleared[hitZone] = [...cleared[hitZone], figure.id];
-              const slotIndex = cleared[hitZone].length - 1;
-              const target = slotPosition(zoneRects[hitZone], slotIndex);
-              gsap.to(el, {
-                x: target.x - originLeft,
-                y: target.y - originTop,
-                duration: 0.4,
-                ease: "power2.out",
-                onComplete: () => startBob(figure.id, el, i),
-              });
+              startBob(figure.id, el, i);
             } else {
               gsap.to(el, {
                 x: 0,

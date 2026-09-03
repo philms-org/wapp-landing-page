@@ -2,23 +2,23 @@ import { Nav } from "../components/layout/Nav";
 import { Footer } from "../components/layout/Footer";
 import { Hero } from "../components/hero/Hero";
 import { SponsorsSection } from "../components/sponsors/SponsorsSection";
-import { AttendeesSection } from "../components/sections/AttendeesSection";
-import { OrganizersSection } from "../components/sections/OrganizersSection";
+import { TwoAudiencesSection } from "../components/sections/TwoAudiencesSection";
+import { OwnerSignalsSection } from "../components/sections/OwnerSignalsSection";
+import { OnboardingSection } from "../components/sections/OnboardingSection";
+import { PosterSection } from "../components/sections/PosterSection";
+import { WaitlistSection } from "../components/sections/WaitlistSection";
 
 export function LandingPage() {
   return (
-    <div className="min-h-screen bg-white text-gray-900">
+    <div className="min-h-screen bg-[#f3f2f2] text-[#201e1d]">
       <Nav />
-      <header className="mx-auto max-w-3xl px-6 pb-4 pt-12 text-center">
-        <h1 className="text-4xl font-bold text-gray-900 sm:text-5xl">The W App</h1>
-        <p className="mt-3 text-lg text-gray-600">
-          Your favorite online thing for events and high-traffic venues
-        </p>
-      </header>
       <Hero />
       <SponsorsSection />
-      <AttendeesSection />
-      <OrganizersSection />
+      <TwoAudiencesSection />
+      <OwnerSignalsSection />
+      <OnboardingSection />
+      <PosterSection />
+      <WaitlistSection />
       <Footer />
     </div>
   );

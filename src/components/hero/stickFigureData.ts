@@ -3,28 +3,43 @@ export type Attire = "tie" | "dress";
 export interface StickFigureDef {
   id: string;
   attire: Attire;
+  flip: boolean;
   startXPercent: number;
   startYPercent: number;
 }
 
-const TIE_COUNT = 7;
-const DRESS_COUNT = 6;
-const TOTAL = TIE_COUNT + DRESS_COUNT;
-const COLUMNS = 7;
+// Conversation clusters — pairs and triads facing each other, attire mixed,
+// so the crowd reads as people socializing rather than a random scatter.
+const CLUSTERS: Array<Array<[number, number, Attire, boolean]>> = [
+  [
+    [30, 24, "tie", false],
+    [37.5, 26, "dress", true],
+  ],
+  [
+    [45, 19, "tie", false],
+    [52.5, 21, "dress", true],
+    [48, 33, "tie", false],
+  ],
+  [
+    [63, 27, "dress", true],
+    [56, 29, "tie", false],
+  ],
+  [
+    [32, 47, "dress", false],
+    [39.5, 49, "tie", true],
+    [35, 60, "dress", true],
+  ],
+  [
+    [55, 51, "tie", false],
+    [62, 49, "dress", true],
+    [58, 62, "tie", false],
+  ],
+];
 
-function scatterPosition(index: number): { startXPercent: number; startYPercent: number } {
-  const row = Math.floor(index / COLUMNS);
-  const col = index % COLUMNS;
-  const jitterX = ((index * 37) % 8) - 4;
-  const jitterY = ((index * 53) % 8) - 4;
-  return {
-    startXPercent: 32 + col * 6 + jitterX,
-    startYPercent: 40 + row * 14 + jitterY,
-  };
-}
-
-export const STICK_FIGURES: StickFigureDef[] = Array.from({ length: TOTAL }, (_, i) => ({
+export const STICK_FIGURES: StickFigureDef[] = CLUSTERS.flat().map(([x, y, attire, flip], i) => ({
   id: `figure-${i}`,
-  attire: i < TIE_COUNT ? "tie" : "dress",
-  ...scatterPosition(i),
+  attire,
+  flip,
+  startXPercent: x,
+  startYPercent: y,
 }));

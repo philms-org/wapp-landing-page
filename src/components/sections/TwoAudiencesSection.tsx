@@ -1,12 +1,12 @@
 const ATTENDEE_POINTS = [
   "The room list, filtered by company, role and what people came for.",
-  "One-tap QR exchange — contacts land in your phone, not a lanyard pile.",
+  "One-tap QR exchange puts contacts in your phone, not a lanyard pile.",
   "Reconnect prompts for people you met at last year's event.",
   "Perks and status that grow the more you actually show up.",
 ];
 
 const OWNER_POINTS = [
-  "Foot traffic and dwell by zone, hall and hour — no beacons to install.",
+  "Foot traffic and dwell by zone, hall and hour, with no beacons to install.",
   "Connections made on site, and how many were repeat reconnections.",
   "Sponsor engagement attributed to the booth, session or activation.",
   "Check-ins, rewards and the live feed run from one admin portal.",

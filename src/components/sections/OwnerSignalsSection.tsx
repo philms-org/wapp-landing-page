@@ -33,7 +33,7 @@ export function OwnerSignalsSection() {
         What owners get, signal by signal
       </h2>
       <p className="m-0 mb-7 max-w-[60ch] text-base text-[#605d5d]">
-        Every number comes from attendee activity in the app — nothing estimated, nothing
+        Every number comes from attendee activity in the app, nothing estimated and nothing
         extrapolated from door counts.
       </p>
       <div className="overflow-x-auto">

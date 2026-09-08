@@ -15,11 +15,13 @@ const CORNER_CLASSES: Record<ZoneId, string> = {
 
 // Right-arm rotation per zone on drop. `hold` zones keep the pose;
 // live-feed springs back through the gesture a few times before settling.
+// Kept well short of ~-88deg, where the arm's rest angle would swing past
+// vertical and point at the head (looked like scratching it, not waving).
 const GESTURE: Record<ZoneId, { deg: number; hold: boolean }> = {
-  who: { deg: -68, hold: true },
+  who: { deg: -25, hold: true },
   "qr-connect": { deg: -14, hold: true },
-  "live-feed": { deg: -40, hold: false },
-  rewards: { deg: -95, hold: true },
+  "live-feed": { deg: -35, hold: false },
+  rewards: { deg: -30, hold: true },
 };
 
 function toRect(el: Element): Rect {
@@ -211,7 +213,7 @@ export function Hero() {
         </h1>
         <p className="m-0 mt-6 max-w-[62ch] text-[17px] leading-[1.5] text-[#444141] sm:mt-9 sm:text-[21px]">
           Attendees see who is already in the room and trade contacts in one tap. Event and venue
-          owners see the traffic, the reconnections and the sponsor value behind the door count —
+          owners see the traffic, the reconnections and the sponsor value behind the door count,
           from the same floor, in real time.
         </p>
         <div className="mt-7 flex flex-wrap gap-3 sm:mt-10">

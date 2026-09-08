@@ -18,7 +18,7 @@ export function SponsorsSection() {
         Move your cursor across this panel
       </p>
       <p className="pointer-events-none relative z-10 m-0 mt-2 text-[11px] text-[#bab6b6]">
-        Placeholder names shown for demo purposes only — not actual sponsors or partners.
+        Placeholder names shown for demo purposes only, not actual sponsors or partners.
       </p>
     </section>
   );

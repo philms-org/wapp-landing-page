@@ -1,6 +1,6 @@
 import { Nav } from "../components/layout/Nav";
 import { Footer } from "../components/layout/Footer";
-import { Hero } from "../components/hero/Hero";
+import { HeroB as Hero } from "../components/hero/HeroB";
 import { SponsorsSection } from "../components/sponsors/SponsorsSection";
 import { TwoAudiencesSection } from "../components/sections/TwoAudiencesSection";
 import { OwnerSignalsSection } from "../components/sections/OwnerSignalsSection";

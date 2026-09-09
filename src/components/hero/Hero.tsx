@@ -200,39 +200,14 @@ export function Hero() {
   }, [assignments]);
 
   return (
-    <section id="top" className="border-b-2 border-[#201e1d]/40">
-      <div className="max-w-[1320px] px-6 pt-16 pb-8 sm:px-10 sm:pt-24 md:px-14 md:pt-28">
-        <p className="m-0 mb-6 text-[13px] tracking-[0.16em] text-[#ae1800] uppercase sm:mb-9">
-          Conferences · Expos · High-traffic venues
+    <section className="border-b-2 border-[#201e1d]/40">
+      <div className="max-w-[1320px] px-6 pt-10 pb-2 sm:px-10 md:px-14">
+        <p className="m-0 text-[13px] tracking-[0.16em] text-[#ae1800] uppercase">
+          See who is already in the room
         </p>
-        <h1 className="m-0 max-w-[15ch] font-[Archivo] text-[42px] leading-[0.94] font-extrabold tracking-[-0.035em] text-[#201e1d] sm:text-[64px] md:text-[80px] lg:text-[108px]">
-          Every room is a network.
-        </h1>
-        <h1 className="m-0 max-w-[15ch] font-[Archivo] text-[42px] leading-[0.94] font-extrabold tracking-[-0.035em] text-[#ec3013] sm:text-[64px] md:text-[80px] lg:text-[108px]">
-          W makes it legible.
-        </h1>
-        <p className="m-0 mt-6 max-w-[62ch] text-[17px] leading-[1.5] text-[#444141] sm:mt-9 sm:text-[21px]">
-          Attendees see who is already in the room and trade contacts in one tap. Event and venue
-          owners see the traffic, the reconnections and the sponsor value behind the door count,
-          from the same floor, in real time.
-        </p>
-        <div className="mt-7 flex flex-wrap gap-3 sm:mt-10">
-          <a
-            href="#waitlist"
-            className="border-2 border-[#ec3013] bg-[#ec3013] px-[22px] py-3.5 text-[15px] font-extrabold tracking-wide text-white uppercase hover:bg-[#ae1800] hover:border-[#ae1800]"
-          >
-            Join the waitlist
-          </a>
-          <a
-            href="#owners"
-            className="border-2 border-[#201e1d] px-[22px] py-3.5 text-[15px] font-extrabold tracking-wide text-[#201e1d] uppercase hover:bg-[#201e1d] hover:text-white"
-          >
-            Onboard your event
-          </a>
-        </div>
-        <p className="m-0 mt-4 text-[13px] text-[#7d7979]">
-          Free through beta · iOS, Android and web · No hardware to install
-        </p>
+        <h2 className="m-0 mt-2 max-w-[24ch] font-[Archivo] text-[26px] leading-[1.08] font-extrabold tracking-[-0.02em] text-[#201e1d] sm:text-[32px] md:text-[40px]">
+          Try it: drag someone into what they came for.
+        </h2>
       </div>
       <div
         ref={boundsRef}

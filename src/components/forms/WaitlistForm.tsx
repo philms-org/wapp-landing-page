@@ -25,7 +25,7 @@ export function WaitlistForm() {
   if (status === "done") {
     return (
       <div className="border-2 border-[#ec3013] p-6">
-        <p className="m-0 mb-2 font-[Archivo] text-xl font-extrabold text-[#201e1d]">
+        <p className="m-0 mb-2 font-heading text-xl font-extrabold text-[#201e1d]">
           You are on the list.
         </p>
         <p className="m-0 text-[15px] text-[#444141]">We will email you when access opens.</p>

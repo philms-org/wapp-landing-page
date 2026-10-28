@@ -91,7 +91,7 @@ export function HeroB() {
         <p className="m-0 mb-6 text-[13px] tracking-[0.16em] text-[#ae1800] uppercase">
           Conferences · Expos · High-traffic venues
         </p>
-        <h1 className="m-0 max-w-[20ch] font-[Archivo] text-[38px] leading-[1] font-extrabold tracking-[-0.03em] text-[#201e1d] sm:text-[52px] md:text-[68px]">
+        <h1 className="m-0 max-w-[20ch] font-heading text-[38px] leading-[1] font-extrabold tracking-[-0.03em] text-[#201e1d] sm:text-[52px] md:text-[68px]">
           The room, measured. The people, introduced.
         </h1>
         <p className="m-0 mt-6 max-w-[52ch] text-[17px] leading-[1.5] text-[#444141]">
@@ -103,7 +103,7 @@ export function HeroB() {
       <div className="grid content-start gap-6 bg-[#f8f4f4] px-6 py-8 sm:px-10 sm:py-12">
         <div className="border-2 border-[#201e1d] bg-[#f3f2f2]">
           <div className="flex items-baseline justify-between gap-3 border-b-2 border-[#201e1d] px-4 py-3.5">
-            <span className="font-[Archivo] text-[13px] font-extrabold tracking-[0.14em] text-[#201e1d] uppercase">
+            <span className="font-heading text-[13px] font-extrabold tracking-[0.14em] text-[#201e1d] uppercase">
               In the room · Hall C
             </span>
             <span className="text-[13px] text-[#ae1800]">184 live</span>

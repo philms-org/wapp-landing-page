@@ -10,7 +10,7 @@ export const DropZone = memo(function DropZone({ zone, isActive }: DropZoneProps
   return (
     <div
       data-zone-id={zone.id}
-      className="w-[150px] pb-20 transition-shadow duration-300 sm:w-[208px]"
+      className="w-[150px] bg-white p-4 pb-20 transition-shadow duration-300 sm:w-[208px] sm:p-5 sm:pb-20"
       style={{
         boxShadow: isActive
           ? "0 12px 30px -6px rgba(32,30,29,0.28)"

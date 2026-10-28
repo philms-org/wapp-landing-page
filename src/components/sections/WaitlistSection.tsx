@@ -5,7 +5,7 @@ export function WaitlistSection() {
   return (
     <section id="waitlist" className="grid border-b-2 border-[#201e1d]/40 sm:grid-cols-2">
       <div className="border-b-2 border-[#201e1d]/40 px-6 py-9 sm:border-r-2 sm:border-b-0 sm:px-14 sm:py-16">
-        <h2 className="m-0 mb-4 max-w-[18ch] font-[Archivo] text-[28px] leading-[1.03] font-extrabold tracking-[-0.025em] text-[#201e1d] sm:text-[36px] md:text-[48px]">
+        <h2 className="m-0 mb-4 max-w-[18ch] font-heading text-[28px] leading-[1.03] font-extrabold tracking-[-0.025em] text-[#201e1d] sm:text-[36px] md:text-[48px]">
           Get on the list, or get your event on it.
         </h2>
         <p className="m-0 max-w-[50ch] text-base leading-[1.5] text-[#444141]">

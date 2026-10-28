@@ -205,7 +205,7 @@ export function Hero() {
         <p className="m-0 text-[13px] tracking-[0.16em] text-[#ae1800] uppercase">
           See who is already in the room
         </p>
-        <h2 className="m-0 mt-2 max-w-[24ch] font-[Archivo] text-[26px] leading-[1.08] font-extrabold tracking-[-0.02em] text-[#201e1d] sm:text-[32px] md:text-[40px]">
+        <h2 className="m-0 mt-2 max-w-[24ch] font-heading text-[26px] leading-[1.08] font-extrabold tracking-[-0.02em] text-[#201e1d] sm:text-[32px] md:text-[40px]">
           Try it: drag someone into what they came for.
         </h2>
       </div>

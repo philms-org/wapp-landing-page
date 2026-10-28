@@ -5,7 +5,7 @@ export function Nav() {
     <nav className="sticky top-0 z-40 flex items-center justify-between gap-4 border-b-2 border-[#201e1d]/40 bg-[#f3f2f2] px-6 py-3.5 sm:px-14">
       <a href="#top" className="flex items-center gap-2.5 text-[#201e1d]">
         <WMark className="h-7 w-7" />
-        <span className="font-[Archivo] text-[15px] font-extrabold tracking-[0.14em] text-[#201e1d] uppercase">
+        <span className="font-heading text-[15px] font-extrabold tracking-[0.14em] text-[#201e1d] uppercase">
           The W App
         </span>
       </a>

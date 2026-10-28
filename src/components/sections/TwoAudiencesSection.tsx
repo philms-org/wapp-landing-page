@@ -19,7 +19,7 @@ export function TwoAudiencesSection() {
         <p className="m-0 mb-3 text-xs tracking-[0.16em] text-[#ae1800] uppercase">
           For attendees
         </p>
-        <h2 className="m-0 mb-5 max-w-[22ch] font-[Archivo] text-[28px] leading-[1.05] font-extrabold tracking-[-0.02em] text-[#201e1d] sm:text-[36px] md:text-[44px]">
+        <h2 className="m-0 mb-5 max-w-[22ch] font-heading text-[28px] leading-[1.05] font-extrabold tracking-[-0.02em] text-[#201e1d] sm:text-[36px] md:text-[44px]">
           Walk in knowing who is worth meeting.
         </h2>
         <div className="grid border-t-2 border-[#201e1d]/40">
@@ -43,7 +43,7 @@ export function TwoAudiencesSection() {
         <p className="m-0 mb-3 text-xs tracking-[0.16em] text-[#ae1800] uppercase">
           For event &amp; venue owners
         </p>
-        <h2 className="m-0 mb-5 max-w-[22ch] font-[Archivo] text-[28px] leading-[1.05] font-extrabold tracking-[-0.02em] text-[#201e1d] sm:text-[36px] md:text-[44px]">
+        <h2 className="m-0 mb-5 max-w-[22ch] font-heading text-[28px] leading-[1.05] font-extrabold tracking-[-0.02em] text-[#201e1d] sm:text-[36px] md:text-[44px]">
           Prove what your floor is worth.
         </h2>
         <div className="grid border-t-2 border-[#201e1d]/40">

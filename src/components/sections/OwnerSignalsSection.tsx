@@ -29,7 +29,7 @@ const SIGNALS = [
 export function OwnerSignalsSection() {
   return (
     <section className="border-b-2 border-[#201e1d]/40 px-6 py-9 sm:px-14 sm:py-16">
-      <h2 className="m-0 mb-2 font-[Archivo] text-2xl font-extrabold tracking-[-0.02em] text-[#201e1d] sm:text-3xl">
+      <h2 className="m-0 mb-2 font-heading text-2xl font-extrabold tracking-[-0.02em] text-[#201e1d] sm:text-3xl">
         What owners get, signal by signal
       </h2>
       <p className="m-0 mb-7 max-w-[60ch] text-base text-[#605d5d]">

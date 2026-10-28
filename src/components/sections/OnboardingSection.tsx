@@ -14,7 +14,7 @@ export function OnboardingSection() {
         <p className="m-0 text-xs tracking-[0.16em] text-[#ae1800] uppercase">
           Three minutes to onboard
         </p>
-        <h2 className="m-0 max-w-[24ch] font-[Archivo] text-[26px] leading-[1.08] font-extrabold tracking-[-0.02em] text-[#201e1d] sm:text-[32px] md:text-[40px]">
+        <h2 className="m-0 max-w-[24ch] font-heading text-[26px] leading-[1.08] font-extrabold tracking-[-0.02em] text-[#201e1d] sm:text-[32px] md:text-[40px]">
           Name the event, draw the zones, share the join code.
         </h2>
         <p className="m-0 max-w-[52ch] text-base leading-[1.5] text-[#444141]">
